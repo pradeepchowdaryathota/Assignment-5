@@ -13,4 +13,4 @@ Statistical Analysis
 
 Exploratory Data Analysis
 
-REQUIRED PACAKGES : readxl, readr, dplyr, viridis, pheatmap
+REQUIRED PACAKGES : readxl, readr, dplyr, viridis, pheatmap, gplots, reshape2
