@@ -3,9 +3,8 @@ library(readr)
 library(dplyr)
 library(viridis)
 library(pheatmap)
-library(ggplot2)
-library(reshape2)
-library(gplots)
+
+
 
 # a.Load data
 df1<- read_excel("Gene_Expression_Data.xlsx")
@@ -63,16 +62,12 @@ downregulated_percentage <- 100 - upregulated_percentage
 barplot(c(upregulated_percentage, downregulated_percentage), names.arg = c("Upregulated", "Downregulated"), col = c("black", "orange"), xlab = "Gene Expression", ylab = "Percentage", main = "Percentage of DEGs Upregulated and Downregulated in Tumor Samples")
 
 #e.
-dfx <- df1_renamed[, -1, drop = FALSE]
-dfx_melt <- melt(as.matrix(dfx))
-colnames(dfx_melt) <- c("Gene", "Sample", "Expression")
+# Remove the "Probe_ID" column from df1_renamed
+dfx <- df1_renamed[, -which(names(df1_renamed) == "Probe_ID")]
+# Create the heatmap
+pheatmap(dfx, cluster_rows = FALSE, cluster_cols = FALSE, main = "Heatmap of Gene Expression by Sample")
+#f.
+# Create the clustermap
+pheatmap(dfx, main = "Clustermap of Gene Expression by Sample")
 
-ggplot(dfx_melt, aes(Sample, Gene, fill = Expression)) +
-  geom_tile() +
-  scale_fill_gradient(low = "white", high = "steelblue") +
-  labs(title = "Heatmap of Gene Expression by Sample", x = "Sample", y = "Gene")
-
-# f. Clustermap of Gene Expression by Sample
-
-heatmap.2(as.matrix(dfx), Rowv = NA, Colv = NA, trace = "none", margins = c(5, 5))
 
